@@ -22,7 +22,7 @@
 			<input type="button" value="전체목록">
 		</td>
 		<td>
-			<input type="button" value="회원탈퇴">
+			<input type="button" value="탈퇴">
 		</td>
 	</tr>
 </table>
