@@ -43,7 +43,6 @@ public class GuestInsert extends HttpServlet {
 		dao.Insert(guest);
 		response.sendRedirect("list");
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
