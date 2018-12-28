@@ -6,21 +6,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.member.model.Member;
 import com.member.model.MemberDAO;
 
 /**
- * Servlet implementation class JoinAction
+ * Servlet implementation class UpdateAction
  */
-@WebServlet("/member/join.do")
-public class JoinAction extends HttpServlet {
+@WebServlet("/member/update.do")
+public class UpdateAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public JoinAction() {
+    public UpdateAction() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,23 +30,23 @@ public class JoinAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String id = request.getParameter("id");
-		String name = request.getParameter("name");
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
 		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		int age = Integer.parseInt(request.getParameter("age"));
+		String email = request.getParameter("email");
 		String gender = request.getParameter("gender");
-		String email = request.getParameter("email"); 
-		int age = Integer.parseInt(request.getParameter("age")); 
-		Member m = new Member();
-		m.setId(id);
-		m.setName(name);
-		m.setPassword(password);
-		m.setEmail(email);
-		m.setAge(age);
-		m.setGender(gender);
+		Member mem = new Member();
+		mem.setAge(age);
+		mem.setEmail(email);
+		mem.setGender(gender);
+		mem.setId(id);
+		mem.setName(name);
+		mem.setPassword(password);
 		MemberDAO dao = MemberDAO.getInstance();
-		dao.joinInsert(m);
-		response.sendRedirect("loginMain.jsp");
+		dao.memUpdate(mem);
+		response.sendRedirect("loginOk.jsp");
 	}
 
 	/**

@@ -8,21 +8,21 @@
 </head>
 <body>
 <div>
-	${id }님이 로그인 하셨습니다!
+	${sessionScope.id }님이 로그인 하셨습니다!
 </div>
 <table>
 	<tr>
 		<td>
-			<input type="button" value="상세보기">
+			<input type="button" value="상세보기" onclick="location.href='view.do?id=${id}'">
 		</td>
 		<td>
-			<input type="button" value="정보수정">
+			<input type="button" value="전체목록" onclick="location.href='list.do'">
 		</td>
 		<td>
-			<input type="button" value="전체목록">
+			<input type="button" value="탈퇴" onclick="location.href='delete.do'">
 		</td>
 		<td>
-			<input type="button" value="탈퇴">
+			<input type="button" value="로그아웃" onclick="location.href='logout.do'">
 		</td>
 	</tr>
 </table>

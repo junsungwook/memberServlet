@@ -35,10 +35,8 @@ public class LoginAction extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
-		System.out.println(id+""+password);
 		MemberDAO dao = MemberDAO.getInstance();
 		int count = dao.userCheck(id,password);
-		System.out.println(count);
 		HttpSession session = request.getSession();
 		if(count==1) {
 			session.setAttribute("id", id);

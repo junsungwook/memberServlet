@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -94,12 +95,98 @@ public class MemberDAO {
 		}
 		return result;	
 	}
+	//상세보기
+	public Member memView(String id) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		Member mem = null;
+		try {
+			con = getConnection();
+			String sql = "select * from member where id='"+id+"'";
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				mem = new Member();
+ 				mem.setId(rs.getString("id"));
+				mem.setPassword(rs.getString("password"));
+				mem.setName(rs.getString("name"));
+				mem.setAge(rs.getInt("age"));
+				mem.setGender(rs.getString("gender"));
+				mem.setEmail(rs.getString("email"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeCon(con, st, rs);
+		}
+		return mem;
+	}
+	//정보수정
+	public void memUpdate(Member mem) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con = getConnection();
+			String sql = "update member set password=?, name=?, age=?, gender=?, email=? where id=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, mem.getPassword());
+			ps.setString(2, mem.getName());
+			ps.setInt(3, mem.getAge());
+			ps.setString(4, mem.getGender());
+			ps.setString(5, mem.getEmail());
+			ps.setString(6, mem.getId());
+			ps.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeCon(con,ps);
+		}
+	}
+	//전체조회
+	public ArrayList<Member> memberList() {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<Member> arr = new ArrayList<>();
+		try {
+			con = getConnection();
+			String sql = "select * from member";
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				Member mem = new Member();
+				mem.setId(rs.getString("id"));
+				mem.setPassword(rs.getString("password"));
+				mem.setName(rs.getString("name"));
+				mem.setAge(rs.getInt("age"));
+				mem.setGender(rs.getString("gender"));
+				mem.setEmail(rs.getString("email"));
+				arr.add(mem);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeCon(con, st, rs);
+		}
+		return arr;
+	}
+	//탈퇴
+	public void memDelete(String id) {
+		Connection con = null;
+		Statement st = null;
+		try {
+			con = getConnection();
+			st = con.createStatement();
+			String sql = "delete from member where id='"+id+"'";
+			st.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeCon(con,st);
+		}
+	}
 
-	
-	
-	
-	
-	
 	
 	
 	private void closeCon(Connection con, PreparedStatement ps) {

@@ -6,21 +6,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.member.model.Member;
 import com.member.model.MemberDAO;
 
 /**
- * Servlet implementation class JoinAction
+ * Servlet implementation class DeleteAction
  */
-@WebServlet("/member/join.do")
-public class JoinAction extends HttpServlet {
+@WebServlet("/member/delete.do")
+public class DeleteAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public JoinAction() {
+    public DeleteAction() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,21 +30,10 @@ public class JoinAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String id = request.getParameter("id");
-		String name = request.getParameter("name");
-		String password = request.getParameter("password");
-		String gender = request.getParameter("gender");
-		String email = request.getParameter("email"); 
-		int age = Integer.parseInt(request.getParameter("age")); 
-		Member m = new Member();
-		m.setId(id);
-		m.setName(name);
-		m.setPassword(password);
-		m.setEmail(email);
-		m.setAge(age);
-		m.setGender(gender);
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
 		MemberDAO dao = MemberDAO.getInstance();
-		dao.joinInsert(m);
+		dao.memDelete(id);
 		response.sendRedirect("loginMain.jsp");
 	}
 

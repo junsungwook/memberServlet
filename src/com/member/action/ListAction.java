@@ -1,6 +1,9 @@
 package com.member.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,16 +14,16 @@ import com.member.model.Member;
 import com.member.model.MemberDAO;
 
 /**
- * Servlet implementation class JoinAction
+ * Servlet implementation class ListAction
  */
-@WebServlet("/member/join.do")
-public class JoinAction extends HttpServlet {
+@WebServlet("/member/list.do")
+public class ListAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public JoinAction() {
+    public ListAction() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,23 +32,12 @@ public class JoinAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String id = request.getParameter("id");
-		String name = request.getParameter("name");
-		String password = request.getParameter("password");
-		String gender = request.getParameter("gender");
-		String email = request.getParameter("email"); 
-		int age = Integer.parseInt(request.getParameter("age")); 
-		Member m = new Member();
-		m.setId(id);
-		m.setName(name);
-		m.setPassword(password);
-		m.setEmail(email);
-		m.setAge(age);
-		m.setGender(gender);
 		MemberDAO dao = MemberDAO.getInstance();
-		dao.joinInsert(m);
-		response.sendRedirect("loginMain.jsp");
+		ArrayList<Member> arr = dao.memberList();
+		request.setAttribute("arr", arr);
+		RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+		rd.forward(request, response);
+		
 	}
 
 	/**
