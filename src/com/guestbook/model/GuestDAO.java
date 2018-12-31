@@ -134,7 +134,25 @@ public class GuestDAO {
 		}
 		return count;
 	}
-
+	public int guestCount(String field, String word) {
+		int count = 0;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			con = getConnection();
+			st = con.createStatement();
+			String sql = "select count(*) from guestbook where "+field+" like '%"+word+"%'";
+			rs = st.executeQuery(sql);
+			if(rs.next())
+			count = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con, st, rs);
+		}
+		return count;
+	}
 	//조회 (페이징으로 변경)
 	public ArrayList<GuestDTO> guestList(int startRow, int endRow) {
 	   Connection con= null;
@@ -165,6 +183,39 @@ public class GuestDAO {
 	  System.out.println(arr.size());
 	  return arr;
 	}
+	public ArrayList<GuestDTO> guestList(String field, String search,int startRow,int endRow) {
+	      ArrayList<GuestDTO> arr =new ArrayList<GuestDTO>();
+	      Connection con =null;
+	      PreparedStatement ps = null;
+	      ResultSet rs = null;
+	      String sql="";
+	      GuestDTO b=null;
+	         try {
+	            con = getConnection();
+	            sql = "select * from (select rownum rn,aa.* from (select * from guestbook where "+field+" like '%"+search+"%' order by num)aa) where rn>=? and rn<=?";
+	            ps = con.prepareStatement(sql);
+	            System.out.println(sql);
+	            ps.setInt(1, startRow);
+	            ps.setInt(2, endRow);
+	            rs = ps.executeQuery();
+	            while (rs.next()) {
+	               b = new GuestDTO();
+	               b.setNum(rs.getInt("num"));
+	               b.setName(rs.getString("name"));
+	               b.setContent(rs.getString("content"));
+	               b.setGrade(rs.getString("grade"));
+	               b.setCreated(rs.getString("created"));
+	               b.setIpaddr(rs.getString("ipaddr"));
+	               arr.add(b);
+	            }
+	         } catch (Exception e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	         }finally {
+	            closeCon(con,ps,rs);
+	         }
+	      return arr;
+	   }
 	//상세보기
 	public GuestDTO guestView(int num) {
 	   Connection con= null;

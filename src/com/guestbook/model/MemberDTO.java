@@ -3,6 +3,7 @@ package com.guestbook.model;
 public class MemberDTO {
 	private String id,name,password,email,gender;
 	private int age;
+	
 	public String getId() {
 		return id == null ? "" : id.trim();
 	}

@@ -24,8 +24,16 @@ $(document).ready(function(){
 			beforeSend : showRequest
 		});
 	});
+	$("#btnSearch").click(function(){
+		getSearch(1,$("#field").val(),$("#word").val());
+	});
 	getData(1);
 })
+function getSearch(pageNum,field,word){
+	$("#results").load("search.dodo",{"pageNum":pageNum,"field":field,"word":word},function(data){
+		$("#results").html(data);
+	});
+}
 function getData(pageNum){
 	$("#results").load("list",{"pageNum":pageNum},function(data){
 		$("#results").html(data);
@@ -109,6 +117,16 @@ function fview(num){
 			</tr>
 		</table>
 	</form>
+	<div align="right">
+		<form name="search" id="search">
+			<select name="field" id="field">
+				<option value="name">이름</option>
+				<option value="content">내용</option>
+			</select>
+			<input type="text" name="word" id="word">
+			<input type="button" value="찾기" id="btnSearch">
+		</form>
+	</div>
 	<br><br><br><br>
 	<div id="results" align="center"></div>
 	<div id="view" align="center"></div>
