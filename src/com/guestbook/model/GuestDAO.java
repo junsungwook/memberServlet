@@ -22,7 +22,7 @@ public class GuestDAO {
 		DataSource ds = (DataSource)envCtx.lookup("jdbc/member");
 		return ds.getConnection();
 	}
-	//ÀÔ·Â
+	//ì…ë ¥
 	public void Insert(GuestDTO guest) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -41,7 +41,7 @@ public class GuestDAO {
 			closeCon(con,ps);
 		}
 	}
-	//°¹¼öÁ¶È¸
+	//ê°¯ìˆ˜ì¡°íšŒ
 	public int guestCount() {
 		int count = 0;
 		Connection con = null;
@@ -62,16 +62,17 @@ public class GuestDAO {
 		return count;
 	}
 
-	//Á¶È¸
-	public ArrayList<GuestDTO> guestList() {
+	//ì¡°íšŒ (í˜ì´ì§•ìœ¼ë¡œ ë³€ê²½)
+	public ArrayList<GuestDTO> guestList(int startRow, int endRow) {
 	   Connection con= null;
 	   Statement st = null;
-	   ResultSet rs = null;
+	   ResultSet rs = null; 
 	   ArrayList<GuestDTO> arr = new ArrayList<>();
 	   String sql="";
 	   try {
 	     con = getConnection();
-	     sql = "select * from guestbook";
+	     sql = "select * from (select rownum rn,aa.* from (select * from guestbook order by num desc)aa) where rn>="+startRow+" and rn<="+endRow;
+	     System.out.println(sql);
 		 st = con.createStatement();
 		 rs = st.executeQuery(sql);
 		 while(rs.next()) {
@@ -89,9 +90,10 @@ public class GuestDAO {
 	  }finally {
 	     closeCon(con,st,rs);
 	  }
+	  System.out.println(arr.size());
 	  return arr;
 	}
-	//»ó¼¼º¸±â
+	//ìƒì„¸ë³´ê¸°
 	public GuestDTO guestView(int num) {
 	   Connection con= null;
 	   Statement st = null;
