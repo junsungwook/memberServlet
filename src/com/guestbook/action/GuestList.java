@@ -46,9 +46,22 @@ public class GuestList extends HttpServlet {
 		int pageSize = 5;
 		int startRow = (currentPage-1)*pageSize+1; //2page -> 6번댓글부터
 		int endRow = currentPage*pageSize;
-		ArrayList<GuestDTO> arr = dao.guestList(startRow,endRow);
-		
 		int count = dao.guestCount();
+		ArrayList<GuestDTO> arr = dao.guestList(startRow,endRow);
+		//총페이지수
+		int totpage = count/pageSize+(count%pageSize==0?0:1);
+		int blockpage =3; //[이전] 456 [다음]
+		int startpage=((currentPage-1)/blockpage)*blockpage+1;
+		int endpage=startpage+blockpage-1;
+		
+		if(endpage > totpage) endpage=totpage;
+		
+		request.setAttribute("totpage", totpage);
+		request.setAttribute("startpage", startpage);
+		request.setAttribute("endpage", endpage);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("blockpage", blockpage);
+		
 		request.setAttribute("lists", arr);
 		request.setAttribute("count", count);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listResult.jsp");

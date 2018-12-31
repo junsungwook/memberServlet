@@ -23,10 +23,10 @@ $(document).ready(function(){
 			beforeSend : showRequest
 		});
 	});
-	getData();
+	getData(1);
 })
-function getData(){
-	$("#results").load("list",function(data){
+function getData(pageNum){
+	$("#results").load("list",{"pageNum":pageNum},function(data){
 		$("#results").html(data);
 	})
 }

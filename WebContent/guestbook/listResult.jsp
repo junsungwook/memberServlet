@@ -32,7 +32,20 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			
+			<div align="center">
+			<!-- 이전 -->
+			<c:if test="${startpage>blockpage }">
+				<a href="javascript:getData(${startpage-blockpage })">[이전]</a>
+			</c:if>
+			<!-- 페이지출력 -->
+			<c:forEach begin="${startpage }" end="${endpage }" var="i">
+				<a href="javascript:getData(${i })">${i }</a>
+			</c:forEach>
+			<!-- 다음 -->
+			<c:if test="${endpage<totpage }">
+				<a href="javascript:getData(${endpage+1 })">[다음]</a>
+			</c:if>
+			</div>
 		</div>	
 	</body>
 </c:if>
