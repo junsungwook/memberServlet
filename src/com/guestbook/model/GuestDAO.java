@@ -145,7 +145,6 @@ public class GuestDAO {
 	   try {
 	     con = getConnection();
 	     sql = "select * from (select rownum rn,aa.* from (select * from guestbook order by num desc)aa) where rn>="+startRow+" and rn<="+endRow;
-	     System.out.println(sql);
 		 st = con.createStatement();
 		 rs = st.executeQuery(sql);
 		 while(rs.next()) {
