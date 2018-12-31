@@ -22,6 +22,79 @@ public class GuestDAO {
 		DataSource ds = (DataSource)envCtx.lookup("jdbc/member");
 		return ds.getConnection();
 	}
+	//댓글삭제
+	public void commentDelete(int num) {
+		Connection con = null;
+		Statement st = null;
+		try {
+			con = getConnection();
+			st = con.createStatement();
+			String sql = "delete from guestbook where num="+num;
+			st.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeCon(con,st);
+		}
+	}
+	//멤버값가져오는
+	public MemberDTO getMember(String id) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		MemberDTO mem = null;
+		try {
+			con = getConnection();
+			String sql = "select * from member where id=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			rs =ps.executeQuery();
+			if(rs.next()) {
+				mem = new MemberDTO();
+				mem.setId(rs.getString("id"));
+				mem.setPassword(rs.getString("password"));
+				mem.setName(rs.getString("name"));
+				mem.setAge(rs.getInt("age"));
+				mem.setGender(rs.getString("gender")); 
+				mem.setEmail(rs.getString("email")); 
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeCon(con,ps);
+		}	
+		return mem;
+	}
+	//유저로그인체크
+	public int userCheck(String id, String password) {
+		int result = 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = getConnection();
+			String sql = "select * from member where id=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			rs =ps.executeQuery();
+			if(rs.next()) {
+				if(rs.getString("password").equals(password)) {
+					result = 1;
+				}
+				else if(!rs.getString("password").equals(password)) {
+					result = 0;
+				}
+			}
+			else {
+				result = -1;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeCon(con,ps);
+		}
+		return result;	
+	}
 	//입력
 	public void Insert(GuestDTO guest) {
 		Connection con = null;

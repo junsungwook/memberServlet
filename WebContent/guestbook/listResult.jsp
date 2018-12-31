@@ -17,6 +17,7 @@
 						<th>등급</th>
 						<th>작성시간</th>
 						<th>ip</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody id="result">
@@ -28,6 +29,11 @@
 							<td>${list.grade }</td>
 							<td>${list.created }</td>
 							<td>${list.ipaddr }</td>
+							<td>
+								<c:if test="${sessionScope.mdto.name==list.name}">
+									<input type="button" value="삭제하기" onclick="location.href='delete.dodo?num=${list.num}'">
+								</c:if>
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -39,7 +45,12 @@
 			</c:if>
 			<!-- 페이지출력 -->
 			<c:forEach begin="${startpage }" end="${endpage }" var="i">
-				<a href="javascript:getData(${i })">${i }</a>
+				<c:if test="${currentPage eq i}" >
+					${i }
+				</c:if>
+				<c:if test="${currentPage ne i}" >
+					<a href="javascript:getData(${i })">${i }</a>
+				</c:if>
 			</c:forEach>
 			<!-- 다음 -->
 			<c:if test="${endpage<totpage }">

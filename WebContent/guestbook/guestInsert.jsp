@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -64,14 +65,24 @@ function fview(num){
 </head>
 <body>
 <div class="container">
+<div align="right">
+	<c:if test="${sessionScope.mdto==null }">
+		<a href="login.jsp">로그인</a>
+	</c:if>
+	<c:if test="${sessionScope.mdto!=null }">
+		${sessionScope.mdto.name}님이 로그인 하셨습니다
+		<a href="logout.dodo">로그아웃</a>
+	</c:if>
+</div>
 	<form action="create">
 		<table class="table">
 			<tr>
 				<td align="center">글쓴이</td>
 				<td>
-					<input type="text" id="name" size="20" name="name" onkeyup="textCount(this,'nameCount')">
+					<input type="text" id="name" size="20" name="name" disabled="disabled" onkeyup="textCount(this,'nameCount')" value="${sessionScope.mdto.name }">
 						*20글자 이내
 						(<span id="nameCount" style="color:blue;">0</span>)
+					<input type="hidden" id="name2" size="20" name="name" value="${sessionScope.mdto.name }">
 				</td>
 			</tr>
 			<tr>
