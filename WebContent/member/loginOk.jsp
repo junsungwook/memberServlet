@@ -24,6 +24,9 @@
 		<td>
 			<input type="button" value="로그아웃" onclick="location.href='logout.do'">
 		</td>
+		<td>
+			<input type="button" value="댓글페이지" onclick="location.href='../guestbook/guestInsert.jsp'">
+		</td>
 	</tr>
 </table>
 

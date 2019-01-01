@@ -75,13 +75,15 @@ function fview(num){
 <div class="container">
 <div align="right">
 	<c:if test="${sessionScope.mdto==null }">
-		<a href="login.jsp">로그인</a>
+		<a href="login.jsp">로그인</a>&nbsp;&nbsp;
+		<a href="../member/join.jsp">회원가입</a>
+		
 	</c:if>
 	<c:if test="${sessionScope.mdto!=null }">
 		${sessionScope.mdto.name}님이 로그인 하셨습니다
-		<a href="logout.dodo">로그아웃</a>
+		<a href="logout.dodo">로그아웃</a>&nbsp;&nbsp;
 	</c:if>
-</div>
+	</div>
 	<form action="create">
 		<table class="table">
 			<tr>

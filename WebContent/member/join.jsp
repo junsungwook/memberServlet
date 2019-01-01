@@ -101,6 +101,7 @@ function idCheck(){
 	</table>
 		<input type="button" value="확인" id="btn">
 		<input type="reset" value="취소">
+		<input type="button" value="댓글창" onclick="location.href='../guestbook/guestInsert.jsp'">
 	</form>
 </body>
 </html>
