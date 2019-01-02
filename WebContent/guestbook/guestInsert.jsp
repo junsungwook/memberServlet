@@ -77,7 +77,6 @@ function fview(num){
 	<c:if test="${sessionScope.mdto==null }">
 		<a href="login.jsp">로그인</a>&nbsp;&nbsp;
 		<a href="../member/join.jsp">회원가입</a>
-		
 	</c:if>
 	<c:if test="${sessionScope.mdto!=null }">
 		${sessionScope.mdto.name}님이 로그인 하셨습니다
