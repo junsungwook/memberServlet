@@ -66,7 +66,6 @@ function fview(num){
 	$.get("view",{"num":num},function(data){
 		$("#view").html(data);
 	});
-
 }
 </script>
 <title>여기에 제목을 입력하십시오</title>
